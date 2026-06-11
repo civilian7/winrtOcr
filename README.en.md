@@ -111,6 +111,23 @@ if (len < 0)
 }
 ```
 
+## Windows Defender False Positives
+
+Freshly built, unsigned executables may be **falsely flagged** as malware by Windows Defender's machine-learning heuristics (e.g. `Trojan:Win32/Wacatac.A!ml`) and quarantined or deleted automatically. The profile "small unsigned console exe + static linking + no reputation" statistically overlaps with malware loaders.
+
+- `winocr.exe` **dynamically loads** `sc_ocr.dll` instead of statically linking the OCR core, which generally avoids the false positive. It may still recur as ML models are updated.
+- If a file disappears during development, diagnose and fix it with:
+
+```powershell
+# Check detection history
+Get-MpThreatDetection | Where-Object { $_.Resources -match 'winrtOcr' }
+
+# Add the project folder as an exclusion (admin PowerShell)
+Add-MpPreference -ExclusionPath 'D:\PROJECTS\winrtOcr'
+```
+
+For distribution, the real fix is signing with a **code-signing certificate** to build reputation.
+
 ## License
 
 [MIT License](LICENSE)

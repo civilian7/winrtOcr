@@ -111,6 +111,23 @@ if (len < 0)
 }
 ```
 
+## Windows Defender 오탐 안내
+
+갓 빌드된 무서명 실행 파일은 Windows Defender의 머신러닝 휴리스틱이 멀웨어로 **오탐**(`Trojan:Win32/Wacatac.A!ml` 등)하여 자동 격리·삭제할 수 있습니다. "작은 무서명 콘솔 exe + 정적 링크 + 평판 없음"이라는 특징이 멀웨어 로더와 통계적으로 겹치기 때문입니다.
+
+- `winocr.exe` 는 OCR 본체를 정적 링크하지 않고 `sc_ocr.dll` 을 **동적 로드**하는 구조라 일반적으로 오탐을 피합니다. 그래도 ML 모델 업데이트에 따라 재발할 수 있습니다.
+- 개발 중 파일이 사라지면 다음으로 확인·해결할 수 있습니다:
+
+```powershell
+# 탐지 기록 확인
+Get-MpThreatDetection | Where-Object { $_.Resources -match 'winrtOcr' }
+
+# 프로젝트 폴더를 제외 경로로 등록 (관리자 PowerShell)
+Add-MpPreference -ExclusionPath 'D:\PROJECTS\winrtOcr'
+```
+
+배포 시 근본 해결책은 **코드 서명 인증서**로 서명해 평판을 확보하는 것입니다.
+
 ## 라이선스
 
 [MIT License](LICENSE)
