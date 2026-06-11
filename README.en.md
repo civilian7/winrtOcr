@@ -11,6 +11,7 @@ A native C++ DLL (`sc_ocr.dll`) that exposes the built-in Windows OCR engine (`W
 - **Flat C API** — UTF-16 + `stdcall`, callable from Delphi, C, C#, or any language with FFI
 - **Thread-safe** — OCR work is isolated on an internal MTA worker thread; callers do not need to initialize COM
 - **Delphi wrapper included** — one-line calls via the `TSCOcr` class in `SCOcr.pas`
+- **Headless CLI included** — `winocr.exe` for scripts and batch jobs
 - The OCR engine ships with Windows itself — no training data or external libraries required
 
 ## Requirements
@@ -41,6 +42,27 @@ build_cpp.bat
 rem 2) Delphi demo app (from src\)
 dcc64 -B -E..\bin -N0..\dcu WinRTOCR.dpr
 ```
+
+## Command-Line Tool (winocr)
+
+A headless CLI for scripting. Place it next to `sc_ocr.dll`.
+
+```bat
+winocr scan.png                       rem print text to stdout (pipe-friendly)
+winocr scan.png -l ko-KR -o out.txt   rem Korean OCR, save as UTF-8 file
+winocr --list-langs                   rem list available OCR languages
+winocr --help                         rem usage
+```
+
+| Option | Description |
+|---|---|
+| `-i, --input <file>` | Input image (also accepted as a positional argument) |
+| `-o, --output <file>` | Save result to a UTF-8 file (default: stdout) |
+| `-l, --lang <tag>` | OCR language (BCP-47). Defaults to user profile languages |
+| `--list-langs` | List available OCR languages |
+| `-v, --version` / `-h, --help` | Version / help |
+
+Exit codes: `0` success · `1` OCR error · `2` usage error
 
 ## DLL API
 

@@ -1,5 +1,5 @@
 @echo off
-rem Build sc_ocr.dll (x64) and sc_ocr32.dll (x86)
+rem Build sc_ocr.dll (x64), sc_ocr32.dll (x86) and winocr.exe (x64 CLI)
 rem MSVC + C++/WinRT, static CRT (/MT) - no runtime dependency
 setlocal
 
@@ -22,6 +22,11 @@ if errorlevel 1 (
 cl %CLFLAGS% /Focpp\obj64\ cpp\sc_ocr.cpp /link /DLL /DEF:cpp\sc_ocr.def /IMPLIB:cpp\obj64\sc_ocr.lib /OUT:bin\sc_ocr.dll %LINKLIBS%
 if errorlevel 1 (
   echo [ERROR] sc_ocr.dll x64 build failed
+  exit /b 1
+)
+cl %CLFLAGS% /Focpp\obj64\ cpp\winocr.cpp /link /OUT:bin\winocr.exe
+if errorlevel 1 (
+  echo [ERROR] winocr.exe x64 build failed
   exit /b 1
 )
 endlocal

@@ -17,3 +17,6 @@ __recovery/
 # 로그 및 로컬 테스트 파일
 logs/
 test.png
+
+# 로컬 개발 환경 전용 스크립트
+add_defender_exclusion.ps1
