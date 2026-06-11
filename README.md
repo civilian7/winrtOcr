@@ -88,3 +88,7 @@ if (len < 0)
     SC_OcrGetLastError(err, 1024);
 }
 ```
+
+## 라이선스
+
+[MIT License](LICENSE)
