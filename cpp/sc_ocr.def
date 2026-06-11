@@ -1,0 +1,5 @@
+EXPORTS
+  SC_OcrExtractText
+  SC_OcrGetAvailableLanguages
+  SC_OcrGetLastError
+  SC_OcrIsLanguageSupported

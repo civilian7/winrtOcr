@@ -1,0 +1,19 @@
+# 빌드 산출물 (릴리스로 배포)
+bin/
+dcu/
+cpp/obj/
+cpp/obj32/
+cpp/obj64/
+
+# Delphi 로컬/생성 파일
+*.dcu
+*.identcache
+*.local
+*.dsk
+*.stat
+__history/
+__recovery/
+
+# 로그 및 로컬 테스트 파일
+logs/
+test.png
